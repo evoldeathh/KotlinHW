@@ -1,6 +1,7 @@
 package com.example.praktika1.ui
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.*
@@ -24,7 +25,7 @@ fun BottomNavigationBar(navController: NavController) {
             )
         )
         NavigationBarItem(
-            icon = { Icon(Icons.Filled.List, contentDescription = "Cocktail List") },
+            icon = { Icon(Icons.AutoMirrored.Filled.List, contentDescription = "Cocktail List") },
             label = { Text("Cocktails") },
             selected = false,
             onClick = { navController.navigate("cocktailList") },

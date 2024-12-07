@@ -12,4 +12,8 @@ interface CocktailApiService {
 
     @GET("api/json/v1/1/lookup.php")
     suspend fun getCocktailById(@Query("i") idDrink: String): Response<CocktailResponse>
+
+    @GET("api/json/v1/1/filter.php")
+    suspend fun getCocktailsByCategory(@Query("c") category: String): Response<CocktailResponse>
 }
+
