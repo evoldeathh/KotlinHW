@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -23,13 +24,12 @@ fun CocktailDetailScreen(
     viewModel: CocktailViewModel
 ) {
     val cocktail by viewModel.cocktail.collectAsState(initial = null)
-    var isLoading by remember { mutableStateOf(true) }
+    val isLoading by viewModel.isLoading.collectAsState()
 
     LaunchedEffect(cocktailId) {
         if (cocktailId != null) {
             viewModel.getCocktailDetail(cocktailId)
         }
-        isLoading = false
     }
 
     Scaffold(
@@ -38,7 +38,7 @@ fun CocktailDetailScreen(
                 title = { Text(text = cocktail?.strDrink ?: "Cocktail Details") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 }
             )
@@ -66,7 +66,7 @@ fun CocktailDetailScreen(
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(text = drink.strDrink, style = MaterialTheme.typography.headlineMedium)
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = "Category: ${drink.strCategory}", style = MaterialTheme.typography.bodyMedium)
+                        Text(text = "Category: ${drink.strCategory ?: "Unknown"}", style = MaterialTheme.typography.bodyMedium)
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(text = "Glass: ${drink.strGlass}", style = MaterialTheme.typography.bodyMedium)
                         Spacer(modifier = Modifier.height(8.dp))

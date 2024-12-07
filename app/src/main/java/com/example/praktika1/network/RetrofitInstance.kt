@@ -25,13 +25,16 @@ class CocktailRepository {
         return withContext(Dispatchers.IO) {
             val response = apiService.getAlcoholicCocktails()
             if (response.isSuccessful) {
+                response.body()?.drinks?.forEach { cocktail ->
+                    println("Cocktail: ${cocktail.strDrink}, Category: ${cocktail.strCategory}")
+                }
                 response.body()?.drinks
             } else {
-
                 null
             }
         }
     }
+
 
     suspend fun getCocktailById(idDrink: String): Cocktail? {
         return withContext(Dispatchers.IO) {
@@ -43,4 +46,17 @@ class CocktailRepository {
             }
         }
     }
+
+
+    suspend fun getCocktailsByCategory(category: String): List<Cocktail>? {
+        return withContext(Dispatchers.IO) {
+            val response = apiService.getCocktailsByCategory(category)
+            if (response.isSuccessful) {
+                response.body()?.drinks
+            } else {
+                null
+            }
+        }
+    }
 }
+
