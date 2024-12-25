@@ -4,12 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.example.praktika1.NavGraph.NavGraph
 import com.example.praktika1.viewmodel.CocktailViewModel
 import com.example.praktika1.data.store.FilterSettingsDataStore
+import com.example.praktika1.ui.BottomNavigationBar
 import com.example.praktika1.ui.theme.Theme
 
 class MainActivity : ComponentActivity() {
@@ -21,9 +25,16 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             Theme {
-                Surface(color = MaterialTheme.colorScheme.background) {
-                    val navController = rememberNavController()
-                    NavGraph(navController = navController, viewModel = viewModel, dataStore = dataStore)
+                val navController = rememberNavController()
+                Scaffold(
+                    bottomBar = { BottomNavigationBar(navController) }
+                ) { innerPadding ->
+                    Surface(
+                        color = MaterialTheme.colorScheme.background,
+                        modifier = Modifier.padding(innerPadding)
+                    ) {
+                        NavGraph(navController = navController, viewModel = viewModel, dataStore = dataStore)
+                    }
                 }
             }
         }

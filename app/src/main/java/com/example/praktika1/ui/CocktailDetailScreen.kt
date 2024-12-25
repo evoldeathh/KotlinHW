@@ -21,7 +21,7 @@ import com.example.praktika1.viewmodel.CocktailViewModel
 fun CocktailDetailScreen(
     navController: NavController,
     cocktailId: String?,
-    viewModel: CocktailViewModel
+    viewModel: CocktailViewModel,
 ) {
     val cocktail by viewModel.cocktail.collectAsState(initial = null)
     val isLoading by viewModel.isLoading.collectAsState()
@@ -71,6 +71,9 @@ fun CocktailDetailScreen(
                         Text(text = "Glass: ${drink.strGlass}", style = MaterialTheme.typography.bodyMedium)
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(text = "Instructions: ${drink.strInstructions}", style = MaterialTheme.typography.bodyMedium)
+                        Button(onClick = { viewModel.addFavorite(drink) }) {
+                            Text("Add to Favorites")
+                        }
                     }
                 } ?: run {
                     Text(text = "Cocktail not found", modifier = Modifier.align(Alignment.Center))
