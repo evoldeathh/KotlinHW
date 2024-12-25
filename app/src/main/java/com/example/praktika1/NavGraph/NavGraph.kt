@@ -9,6 +9,8 @@ import com.example.praktika1.viewmodel.CocktailViewModel
 import com.example.praktika1.data.store.FilterSettingsDataStore
 import com.example.praktika1.ui.CocktailDetailScreen
 import com.example.praktika1.ui.CocktailListScreen
+import com.example.praktika1.ui.FavoriteCocktailsScreen
+import com.example.praktika1.ui.HomeScreen
 
 @Composable
 fun NavGraph(navController: NavHostController, viewModel: CocktailViewModel, dataStore: FilterSettingsDataStore) {
@@ -24,6 +26,12 @@ fun NavGraph(navController: NavHostController, viewModel: CocktailViewModel, dat
             cocktailId?.let {
                 CocktailDetailScreen(navController, it, viewModel)
             }
+        }
+        composable("home") {
+            HomeScreen()
+        }
+        composable("favorites") {
+            FavoriteCocktailsScreen(viewModel,navController)
         }
     }
 }

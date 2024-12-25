@@ -35,10 +35,14 @@ fun CocktailListScreen(
     val filterSettings by dataStore.filterSettings.collectAsState(initial = FilterSettings("", "", ""))
     var searchQuery by remember { mutableStateOf("") }
     var filteredCocktails by remember { mutableStateOf<List<Cocktail>>(emptyList()) } // Пустой список по умолчанию
+    val hasFilter = filterSettings.name.isNotEmpty() || filterSettings.type.isNotEmpty() || filterSettings.rating.isNotEmpty()
 
     LaunchedEffect(searchQuery, filterSettings, cocktails) {
         // Логируем весь список коктейлей
         //println("Cocktail List: $cocktails")
+        if (filterSettings.type.isNotEmpty()) {
+            viewModel.fetchCocktailsByCategory(filterSettings.type)
+        }
 
         filteredCocktails = cocktails?.filter { cocktail ->
             val normalizedCategory = cocktail.strCategory?.trim()?.lowercase()  // Используем безопасный доступ
@@ -55,7 +59,7 @@ fun CocktailListScreen(
             // Применяем фильтрацию
             (searchQuery.isEmpty() || cocktail.strDrink?.contains(normalizedSearchQuery, ignoreCase = true) == true) &&
                     (filterSettings.name.isEmpty() || cocktail.strDrink?.contains(filterSettings.name, ignoreCase = true) == true) &&
-                    (filterSettings.type.isEmpty() || normalizedCategory?.contains(normalizedFilterCategory) == true) &&
+
                     (filterSettings.rating.isEmpty() || cocktail.strAlcoholic?.contains(filterSettings.rating, ignoreCase = true) == true)
         } ?: emptyList()
 
@@ -72,10 +76,19 @@ fun CocktailListScreen(
                 title = { Text("Cocktail List") },
                 actions = {
                     IconButton(onClick = { navController.navigate("filterSettings") }) {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_filter_list),
-                            contentDescription = "Filter"
-                        )
+                        BadgedBox(
+                            badge = {
+                                if (hasFilter){
+                                    Badge()
+                                }
+                            }
+                        ) {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(id = R.drawable.ic_filter_list),
+                                contentDescription = "Filter"
+                            )
+                        }
+
                     }
                 }
             )
@@ -116,7 +129,7 @@ fun CocktailListScreen(
 }
 
 @Composable
-fun CocktailListItem(cocktail: Cocktail, navController: NavController) {
+private fun CocktailListItem(cocktail: Cocktail, navController: NavController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

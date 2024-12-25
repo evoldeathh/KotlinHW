@@ -20,6 +20,7 @@ runtimeLivedata = "1.7.4"
 foundationLayoutAndroid = "1.7.0"
 datastoreCoreAndroid = "1.1.1"
 datastoreCoreJvm = "1.1.1"
+ksp = "1.9.0-1.0.13"
 
 [libraries]
 androidx-compose-material3-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3Version" }
@@ -54,4 +55,5 @@ androidx-datastore-core-jvm = { group = "androidx.datastore", name = "datastore-
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ksp = {id = "com.google.devtools.ksp", version.ref = "ksp"}
 
